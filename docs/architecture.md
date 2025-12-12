@@ -104,7 +104,7 @@ sequenceDiagram
   participant R as Redis
   participant P as Postgres
   C->>G: session.start {jwt, tenant, caps}
-  G->>R: rate-limit check; session init
+  G->>R: rate-limit check and session init
   G->>P: upsert session row
   G-->>C: session.ack {sessionId, codecs, limits}
   G-->>C: heartbeat/ready
