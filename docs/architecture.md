@@ -14,12 +14,12 @@ System context and container-level C4-style diagrams for the low-latency voice c
 ```mermaid
 flowchart LR
   user([End User])
-  browser[Web Client<br/>(Browser)]
-  gateway[Realtime Gateway<br/>(WS Signaling)]
-  speech[Speech Pipeline<br/>(VAD/ASR/TTS)]
-  llm[LLM Orchestrator]
-  observ[Observability Stack<br/>(OTel/Prom/Loki)]
-  data[(Postgres<br/>Redis<br/>S3)]
+  browser["Web Client (Browser)"]
+  gateway["Realtime Gateway (WS Signaling)"]
+  speech["Speech Pipeline (VAD/ASR/TTS)"]
+  llm["LLM Orchestrator"]
+  observ["Observability Stack (OTel/Prom/Loki)"]
+  data[("Postgres / Redis / S3")]
 
   user --> browser
   browser <-->|WS| gateway
@@ -36,40 +36,40 @@ flowchart LR
 ```mermaid
 flowchart TD
   subgraph Client [Client]
-    mic[Mic Capture<br/>AudioWorklet/Opus 20ms]
-    wsClient[WS Client SDK<br/>Auth + Events]
-    player[Playback Engine<br/>WebAudio minimal buffer]
+    mic["Mic Capture (AudioWorklet, Opus 20ms)"]
+    wsClient["WS Client SDK (Auth + Events)"]
+    player["Playback Engine (WebAudio, minimal buffer)"]
   end
 
   subgraph Edge [Edge/Gateway (Node/TS)]
-    wsServer[WS Server<br/>Fastify + ws/socket.io]
-    auth[Auth & Rate Limit<br/>JWT + Redis bucket]
-    fsm[Session FSM<br/>Redis-backed]
-    router[Stream Router<br/>gRPC/NATS]
+    wsServer["WS Server (Fastify + ws/socket.io)"]
+    auth["Auth & Rate Limit (JWT + Redis bucket)"]
+    fsm["Session FSM (Redis-backed)"]
+    router["Stream Router (gRPC/NATS)"]
   end
 
   subgraph Speech [Speech Services]
-    vad[VAD/Endpointing<br/>Rust/Go]
-    asr[Streaming ASR<br/>Vendor/API]
-    tts[Streaming TTS<br/>Vendor/API]
+    vad["VAD/Endpointing (Rust/Go)"]
+    asr["Streaming ASR (Vendor/API)"]
+    tts["Streaming TTS (Vendor/API)"]
   end
 
   subgraph LLM [LLM Layer]
-    orchestrator[LLM Orchestrator<br/>Node/TS; routing; truncation]
-    models[LLM Providers<br/>Streaming tokens]
+    orchestrator["LLM Orchestrator (Node/TS)"]
+    models["LLM Providers (Streaming tokens)"]
   end
 
   subgraph Data [Data Stores]
-    redis[(Redis<br/>state, rate limits)]
-    pg[(Postgres<br/>sessions, turns, costs)]
-    s3[(S3<br/>recordings/logs)]
-    bus[(Message Bus<br/>NATS/Kafka/SQS)]
+    redis[(Redis: state, rate limits)]
+    pg[(Postgres: sessions, turns, costs)]
+    s3[(S3: recordings/logs)]
+    bus[(Message Bus: NATS/Kafka/SQS)]
   end
 
   subgraph Obs [Observability]
-    otel[OTel Collector]
-    prom[Prom/Grafana]
-    logs[Loki/ELK]
+    otel["OTel Collector"]
+    prom["Prom/Grafana"]
+    logs["Loki/ELK"]
   end
 
   mic --> wsClient --> wsServer
