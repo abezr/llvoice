@@ -138,11 +138,11 @@ sequenceDiagram
   participant L as LLM
   participant T as TTS
   V--x G: timeout/no partial (e.g., 300ms)
-  G-->>C: error {code:"asr_timeout"}; prompt retry or text mode
+  G-->>C: error {code:"asr_timeout"} prompt retry or text mode
   L--x G: timeout first-token (e.g., 800ms)
-  G-->>C: error {code:"llm_timeout"}; optional canned short reply
+  G-->>C: error {code:"llm_timeout"} optional canned short reply
   T--x G: timeout first-chunk (e.g., 300ms)
-  G-->>C: error {code:"tts_timeout"}; fallback to text transcript
+  G-->>C: error {code:"tts_timeout"} fallback to text transcript
   Note left of G: cancel outstanding streams; record metrics/logs
 ```
 
